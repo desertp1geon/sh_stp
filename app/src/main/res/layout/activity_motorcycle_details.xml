@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.example.sh_stp.viewmodel.MotorcycleDetailsActivityViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="24dp"
+        android:background="#FFFFFF">
+
+        <TextView
+            android:id="@+id/textViewDetailsTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Дані про мотоцикл"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="#212121"
+            android:gravity="center"
+            android:layout_marginBottom="32dp" />
+
+        <TextView
+            android:id="@+id/textViewBrand"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{`Марка: ` + viewModel.uiModel.brand}"
+            android:textSize="18sp"
+            android:layout_marginBottom="20dp" />
+
+        <TextView
+            android:id="@+id/textViewModel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{`Модель: ` + viewModel.uiModel.model}"
+            android:textSize="18sp"
+            android:layout_marginBottom="20dp" />
+
+        <TextView
+            android:id="@+id/textViewYear"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{`Рік випуску: ` + viewModel.uiModel.year}"
+            android:textSize="18sp"
+            android:layout_marginBottom="20dp" />
+
+        <TextView
+            android:id="@+id/textViewEngineVolume"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{`Об'єм двигуна: ` + viewModel.uiModel.engineVolume + ` см³`}"
+            android:textSize="18sp" />
+
+    </LinearLayout>
+</layout>

@@ -1,0 +1,53 @@
+
+
+# Gradle
+.gradle/
+build/
+**/build/
+gradle-app.setting
+!gradle-wrapper.jar
+
+# Local configuration
+local.properties
+
+# Android Studio / IntelliJ IDEA
+.idea/
+*.iml
+out/
+
+# Compiled files
+*.class
+*.dex
+*.apk
+*.aab
+*.ap_
+*.aar
+
+# Generated files
+captures/
+.externalNativeBuild/
+.cxx/
+lint-results*.html
+lint-results*.xml
+
+# Kotlin
+.kotlin/
+
+# Logs
+*.log
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Keystore and signing credentials
+*.jks
+*.keystore
+
+# Temporary files
+*.tmp
+*.swp
+*~
+
+# Crashlytics
+com_crashlytics_export_strings.xml
