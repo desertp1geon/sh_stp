@@ -1,53 +1,87 @@
 
 package com.example.sh_stp.viewmodel;
 
-import android.view.View;
+import android.app.Application;
 
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
-import com.example.sh_stp.model.MainActivityMotorcycleModel;
+import com.example.sh_stp.activity1.MotorcycleRecyclerViewAdapter;
+import com.example.sh_stp.concurency.Fault;
+import com.example.sh_stp.concurency.TaskCallback;
+import com.example.sh_stp.data.Motorcycle;
+import com.example.sh_stp.data.MotorcycleDatabase;
+import com.example.sh_stp.data.MotorcycleRepository;
 
-public class MainActivityViewModel extends ViewModel {
+import java.util.ArrayList;
+import java.util.List;
 
-    private final MutableLiveData<MainActivityMotorcycleModel> viewState =
-            new MutableLiveData<>();
+public class MainActivityViewModel extends AndroidViewModel {
 
-    private final MainActivityMotorcycleModel uiModel =
-            new MainActivityMotorcycleModel();
+    private final MutableLiveData<List<Motorcycle>> motorcycles;
+    private MotorcycleRecyclerViewAdapter adapter;
+    private MotorcycleRepository repository;
 
-    public MainActivityViewModel() {
-        viewState.setValue(uiModel);
+    public MainActivityViewModel(@NonNull Application application) {
+        super(application);
+
+        motorcycles = new MutableLiveData<>(new ArrayList<>());
+        adapter = new MotorcycleRecyclerViewAdapter();
+        repository = MotorcycleDatabase.getInstance(application);
+
+        loadMotorcycles();
     }
 
-    public MutableLiveData<MainActivityMotorcycleModel> getViewState() {
-        return viewState;
+    public MutableLiveData<List<Motorcycle>> getMotorcycles() {
+        return motorcycles;
     }
 
-    public MainActivityMotorcycleModel getUiModel() {
-        return uiModel;
+    public MotorcycleRecyclerViewAdapter getAdapter() {
+        return adapter;
     }
 
-    public void onNextButtonClicked(View v) {
-        String brand = uiModel.getBrand().trim();
-        String model = uiModel.getModel().trim();
-        String year = uiModel.getYear().trim();
-        String engineVolume = uiModel.getEngineVolume().trim();
-
-        uiModel.setNavigateToDetails(false);
-        uiModel.setShowError(false);
-
-        if (brand.isEmpty()
-                || model.isEmpty()
-                || year.isEmpty()
-                || engineVolume.isEmpty()) {
-
-            uiModel.setShowError(true);
-
-        } else {
-            uiModel.setNavigateToDetails(true);
+    public void setAdapter(MotorcycleRecyclerViewAdapter adapter) {
+        if (adapter != null) {
+            this.adapter = adapter;
         }
+    }
 
-        viewState.setValue(uiModel);
+    public MotorcycleRepository getRepository() {
+        return repository;
+    }
+
+    public void setRepository(MotorcycleRepository repository) {
+        if (repository != null) {
+            this.repository = repository;
+        }
+    }
+
+    public void loadMotorcycles() {
+        repository.getAll(new TaskCallback<List<Motorcycle>>() {
+            @Override
+            public void onComplete(List<Motorcycle> result) {
+                motorcycles.postValue(result);
+            }
+
+            @Override
+            public void onError(Fault fault) {
+                motorcycles.postValue(new ArrayList<>());
+            }
+        });
+    }
+
+    public void addMotorcycle(Motorcycle motorcycle) {
+        repository.insert(motorcycle, new TaskCallback<Long>() {
+            @Override
+            public void onComplete(Long insertedId) {
+                loadMotorcycles();
+            }
+
+            @Override
+            public void onError(Fault fault) {
+                // Помилку збереження можна обробити в окремому LiveData.
+            }
+        });
     }
 }

@@ -5,6 +5,7 @@ import androidx.databinding.BaseObservable;
 import androidx.databinding.Bindable;
 
 import com.example.sh_stp.BR;
+import com.example.sh_stp.data.Motorcycle;
 
 public class MotorcycleDetailsActivityMotorcycleModel
         extends BaseObservable {

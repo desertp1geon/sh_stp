@@ -4,7 +4,7 @@ package com.example.sh_stp.viewmodel;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.sh_stp.model.Motorcycle;
+import com.example.sh_stp.data.Motorcycle;
 import com.example.sh_stp.model.MotorcycleDetailsActivityMotorcycleModel;
 
 public class MotorcycleDetailsActivityViewModel extends ViewModel {

@@ -1,27 +1,28 @@
 
 package com.example.sh_stp.activity2;
 
-import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.sh_stp.R;
 import com.example.sh_stp.activity1.MainActivity;
+import com.example.sh_stp.data.Motorcycle;
 import com.example.sh_stp.databinding.ActivityMotorcycleDetailsBinding;
-import com.example.sh_stp.model.Motorcycle;
 import com.example.sh_stp.viewmodel.MotorcycleDetailsActivityViewModel;
 
-public class MotorcycleDetailsActivity extends Activity {
+public class MotorcycleDetailsActivity extends AppCompatActivity {
 
     private ActivityMotorcycleDetailsBinding binding;
     private MotorcycleDetailsActivityViewModel viewModel;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         binding = DataBindingUtil.setContentView(
@@ -50,9 +51,9 @@ public class MotorcycleDetailsActivity extends Activity {
 
         viewModel.setMotorcycle(motorcycle);
 
-        viewModel.getViewState().observe(this, state -> {
-            binding.invalidateAll();
-        });
+        viewModel.getViewState().observe(this, state ->
+                binding.invalidateAll()
+        );
     }
 
     private Motorcycle getMotorcycleFromIntent() {

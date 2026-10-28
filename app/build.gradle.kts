@@ -39,6 +39,12 @@ android {
 }
 
 dependencies {
+    // Room — робота з локальною базою даних
+    implementation("androidx.room:room-runtime:2.6.1")
+    annotationProcessor("androidx.room:room-compiler:2.6.1")
+
+    // RecyclerView — відображення списку мотоциклів
+    implementation("androidx.recyclerview:recyclerview:1.3.2")
     implementation("androidx.lifecycle:lifecycle-viewmodel:2.8.7")
     implementation("androidx.lifecycle:lifecycle-livedata:2.8.7")
     implementation(platform(libs.androidx.compose.bom))
