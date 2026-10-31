@@ -1,14 +1,11 @@
 
 package com.example.sh_stp.data;
 
-import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 
-import androidx.room.Room;
-
-import com.example.sh_stp.concurency.Fault;
-import com.example.sh_stp.concurency.TaskCallback;
+import com.example.sh_stp.basic.concurency.Fault;
+import com.example.sh_stp.basic.concurency.TaskCallback;
 import com.example.sh_stp.data.mappers.MotorcycleMapper;
 import com.example.sh_stp.data.room.AppDatabase;
 import com.example.sh_stp.data.room.MotorcycleDAO;
@@ -20,55 +17,29 @@ import java.util.concurrent.Executors;
 
 public class MotorcycleDatabase implements MotorcycleRepository {
 
-    private static volatile MotorcycleDatabase instance;
-
     private final AppDatabase appDatabase;
     private final MotorcycleDAO motorcycleDAO;
     private final ExecutorService executorService;
     private final Handler mainHandler;
 
-    private MotorcycleDatabase(Context context) {
-        Context applicationContext = context.getApplicationContext();
+    public MotorcycleDatabase(AppDatabase appDatabase) {
+        this.appDatabase = appDatabase;
+        this.motorcycleDAO = appDatabase.motorcycleDAO();
 
-        appDatabase = Room.databaseBuilder(
-                applicationContext,
-                AppDatabase.class,
-                "motorcycles_database"
-        ).build();
-
-        motorcycleDAO = appDatabase.motorcycleDAO();
-
-        executorService = Executors.newSingleThreadExecutor();
-        mainHandler = new Handler(Looper.getMainLooper());
-    }
-
-    public static MotorcycleDatabase getInstance(Context context) {
-        if (instance == null) {
-            synchronized (MotorcycleDatabase.class) {
-                if (instance == null) {
-                    instance = new MotorcycleDatabase(context);
-                }
-            }
-        }
-
-        return instance;
+        this.executorService = Executors.newSingleThreadExecutor();
+        this.mainHandler = new Handler(Looper.getMainLooper());
     }
 
     @Override
-    public void getAll(
-            TaskCallback<List<Motorcycle>> callback
-    ) {
+    public void getAll(TaskCallback<List<Motorcycle>> callback) {
         executorService.execute(() -> {
             try {
-                List<MotorcycleEntity> entities =
-                        motorcycleDAO.getAll();
+                List<MotorcycleEntity> entities = motorcycleDAO.getAll();
 
                 List<Motorcycle> motorcycles =
                         MotorcycleMapper.toDomainList(entities);
 
-                mainHandler.post(
-                        () -> callback.onComplete(motorcycles)
-                );
+                mainHandler.post(() -> callback.onComplete(motorcycles));
 
             } catch (Exception e) {
                 Fault fault = new Fault(
@@ -76,9 +47,7 @@ public class MotorcycleDatabase implements MotorcycleRepository {
                         e
                 );
 
-                mainHandler.post(
-                        () -> callback.onError(fault)
-                );
+                mainHandler.post(() -> callback.onError(fault));
             }
         });
     }
@@ -101,9 +70,7 @@ public class MotorcycleDatabase implements MotorcycleRepository {
 
                 long insertedId = motorcycleDAO.insert(entity);
 
-                mainHandler.post(
-                        () -> callback.onComplete(insertedId)
-                );
+                mainHandler.post(() -> callback.onComplete(insertedId));
 
             } catch (Exception e) {
                 Fault fault = new Fault(
@@ -111,9 +78,7 @@ public class MotorcycleDatabase implements MotorcycleRepository {
                         e
                 );
 
-                mainHandler.post(
-                        () -> callback.onError(fault)
-                );
+                mainHandler.post(() -> callback.onError(fault));
             }
         });
     }

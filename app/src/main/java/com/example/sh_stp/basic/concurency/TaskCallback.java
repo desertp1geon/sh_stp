@@ -1,5 +1,5 @@
 
-package com.example.sh_stp.concurency;
+package com.example.sh_stp.basic.concurency;
 
 public interface TaskCallback<T> {
 

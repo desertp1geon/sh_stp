@@ -3,8 +3,7 @@ package com.example.sh_stp.data;
 
 import java.util.List;
 
-import com.example.sh_stp.concurency.Fault;
-import com.example.sh_stp.concurency.TaskCallback;
+import com.example.sh_stp.basic.concurency.TaskCallback;
 
 public interface MotorcycleRepository {
 
