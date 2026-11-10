@@ -53,24 +53,26 @@ public class MotorcycleDatabase implements MotorcycleRepository {
     }
 
     @Override
-    public void insert(
-            Motorcycle motorcycle,
-            TaskCallback<Long> callback
-    ) {
+    public void insert(Motorcycle motorcycle, TaskCallback<Boolean> callback) {
         executorService.execute(() -> {
             try {
-                MotorcycleEntity entity =
-                        MotorcycleMapper.toEntity(motorcycle);
-
-                if (entity == null) {
+                if (motorcycle == null) {
                     throw new IllegalArgumentException(
                             "Мотоцикл не може бути null"
                     );
                 }
 
-                long insertedId = motorcycleDAO.insert(entity);
+                MotorcycleEntity entity = MotorcycleMapper.toEntity(motorcycle);
 
-                mainHandler.post(() -> callback.onComplete(insertedId));
+                if (entity == null) {
+                    throw new IllegalArgumentException(
+                            "Не вдалося перетворити мотоцикл"
+                    );
+                }
+
+                motorcycleDAO.insert(entity);
+
+                mainHandler.post(() -> callback.onComplete(true));
 
             } catch (Exception e) {
                 Fault fault = new Fault(

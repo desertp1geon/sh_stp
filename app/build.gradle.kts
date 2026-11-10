@@ -44,6 +44,15 @@ kotlin {
 }
 
 dependencies {
+    implementation(libs.androidx.junit)
+    testImplementation("junit:junit:4.13.2")
+    testImplementation("org.mockito:mockito-core:5.7.0")
+
+    androidTestImplementation("org.mockito:mockito-android:5.7.0")
+    androidTestImplementation("androidx.arch.core:core-testing:2.2.0")
+
+    implementation("net.bytebuddy:byte-buddy:1.14.9")
+
     implementation("androidx.room:room-runtime:2.6.1")
     annotationProcessor("androidx.room:room-compiler:2.6.1")
 

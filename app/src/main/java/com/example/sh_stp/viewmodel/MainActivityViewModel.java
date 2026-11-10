@@ -13,9 +13,10 @@ import com.example.sh_stp.data.MotorcycleRepository;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import java.lang.Boolean;
 public class MainActivityViewModel extends ViewModel {
 
+    private final MutableLiveData<Boolean> isLoading;
     private final MutableLiveData<List<Motorcycle>> motorcycles;
     private final MotorcycleRecyclerViewAdapter adapter;
     private final MotorcycleRepository repository;
@@ -23,12 +24,17 @@ public class MainActivityViewModel extends ViewModel {
     public MainActivityViewModel(
             @NonNull MotorcycleRepository repository
     ) {
+        isLoading = new MutableLiveData<>(false);
         this.repository = repository;
 
         motorcycles = new MutableLiveData<>(new ArrayList<>());
         adapter = new MotorcycleRecyclerViewAdapter();
 
         loadMotorcycles();
+    }
+
+    public MutableLiveData<Boolean> getIsLoading() {
+        return isLoading;
     }
 
     public MutableLiveData<List<Motorcycle>> getMotorcycles() {
@@ -40,29 +46,36 @@ public class MainActivityViewModel extends ViewModel {
     }
 
     public void loadMotorcycles() {
+        isLoading.setValue(true);
+
         repository.getAll(new TaskCallback<List<Motorcycle>>() {
             @Override
             public void onComplete(List<Motorcycle> result) {
                 motorcycles.postValue(result);
+                isLoading.postValue(false);
             }
 
             @Override
             public void onError(Fault fault) {
                 motorcycles.postValue(new ArrayList<>());
+                isLoading.postValue(false);
             }
         });
     }
 
     public void addMotorcycle(Motorcycle motorcycle) {
-        repository.insert(motorcycle, new TaskCallback<Long>() {
+        repository.insert(motorcycle, new TaskCallback<Boolean>() {
+
             @Override
-            public void onComplete(Long insertedId) {
-                loadMotorcycles();
+            public void onComplete(Boolean result) {
+                if (Boolean.TRUE.equals(result)) {
+                    loadMotorcycles();
+                }
             }
 
             @Override
             public void onError(Fault fault) {
-                // За потреби помилку можна передати через окремий LiveData.
+                // тут обробляємо помилку, можна додати наприклад логування, але завданням не визначено дію в такому випадку
             }
         });
     }

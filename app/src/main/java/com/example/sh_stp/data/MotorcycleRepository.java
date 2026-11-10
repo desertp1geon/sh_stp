@@ -13,6 +13,6 @@ public interface MotorcycleRepository {
 
     void insert(
             Motorcycle motorcycle,
-            TaskCallback<Long> callback
+            TaskCallback<Boolean> callback
     );
 }
