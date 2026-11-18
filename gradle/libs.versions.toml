@@ -12,6 +12,9 @@ composeBom = "2026.02.01"
 appcompat = "1.8.0"
 constraintlayout = "2.2.2"
 koin = "4.1.0"
+firebaseCrashlytics = "21.1.0"
+googleGmsGoogleServices = "4.6.0"
+googleFirebaseCrashlytics = "3.0.8"
 
 [libraries]
 koin-android-compat = { group = "io.insert-koin", name = "koin-android-compat", version.ref = "koin" }
@@ -35,8 +38,11 @@ androidx-constraintlayout = { group = "androidx.constraintlayout", name = "const
 koin-core = { group = "io.insert-koin", name = "koin-core", version.ref = "koin" }
 koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = "koin" }
 kotlin-reflect = { group = "org.jetbrains.kotlin", name = "kotlin-reflect", version.ref = "kotlin" }
+firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics", version.ref = "firebaseCrashlytics" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+google-gms-google-services = { id = "com.google.gms.google-services", version.ref = "googleGmsGoogleServices" }
+google-firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "googleFirebaseCrashlytics" }

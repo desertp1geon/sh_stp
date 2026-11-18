@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "334365439478",
+    "project_id": "shstp-a2adf",
+    "storage_bucket": "shstp-a2adf.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:334365439478:android:2a8a69ce409755b20b03d7",
+        "android_client_info": {
+          "package_name": "com.example.sh_stp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCFxBZOcsaAZKJ9WstiRo0MnSYbUUqrXl0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

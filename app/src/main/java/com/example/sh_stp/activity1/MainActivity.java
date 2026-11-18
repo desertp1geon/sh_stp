@@ -71,6 +71,10 @@ public class MainActivity extends BaseActivity {
         buttonAdd.setOnClickListener(v -> showAddMotorcycleDialog());
     }
 
+    private void CallError(View view) {
+        throw new RuntimeException("Test Crash");
+    }
+
     private void showAddMotorcycleDialog() {
         View dialogView = LayoutInflater.from(this)
                 .inflate(R.layout.dialog_add_motorcycle, null);

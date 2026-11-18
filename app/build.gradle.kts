@@ -2,6 +2,8 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.google.gms.google.services)
+    alias(libs.plugins.google.firebase.crashlytics)
 }
 
 android {
@@ -45,6 +47,7 @@ kotlin {
 
 dependencies {
     implementation(libs.androidx.junit)
+    implementation(libs.firebase.crashlytics)
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.mockito:mockito-core:5.7.0")
 
